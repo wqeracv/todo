@@ -6,10 +6,10 @@ task_file = 'task.json'
 
 def load_task():
     if os.path.exists(task_file):
-        with open(task_file, 'r', emcpdomg='utf-8') as file:
+        with open(task_file, 'r', encoding='utf-8') as file:
             return json.load(file) #json.load() 함수라고 하지만 메소드는 클래스 안에 구현된 함수다
     return []
-def save_task(tasks): #add_task르ㄹ 통해 전달받은 해야할일을 파일에 저장하는 기능
+def save_task(tasks): #add_task를 통해 전달받은 해야할일을 파일에 저장하는 기능
     with open(task_file, 'w', encoding='utf-8') as file: #file => open(task_file, 'w', encoding='utf-8')
         json.dump(tasks, file, indent=4, ensure_ascii=False)
 
@@ -22,8 +22,14 @@ def view_task(): # 2번에 할 일 목록보기를 보여주는 함수
     pass
     
 def complete_task(task_number): # 할일 완료 함수
-    pass
-
+    tasks = load_task() #tasks = [{"name":"파이썬 공부하기", "completed":false}, ]
+    if 1 <= task_number <= len (tasks):
+        tasks[task_number-1]["completed"] = True
+        save_task(tasks)
+        print(f"할 일 : {tasks[task_number-1]['name']}이(가) 완료 처리 되었습니다")
+    else :
+        print("유효하지 않은 번호입니다. 다시 확인 후 입력해주세요.")
+        
 def delete_task(task_number): # 할일 삭제 함수
     pass
 
