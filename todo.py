@@ -6,10 +6,10 @@ task_file = 'task.json'
 
 def load_task():
     if os.path.exists(task_file):
-        with open(task_file, 'r', emcpdomg='utf-8') as file:
+        with open(task_file, 'r', encoding='utf-8') as file:
             return json.load(file) #json.load() 함수라고 하지만 메소드는 클래스 안에 구현된 함수다
     return []
-def save_task(tasks): #add_task르ㄹ 통해 전달받은 해야할일을 파일에 저장하는 기능
+def save_task(tasks): #add_task를 통해 전달받은 해야할일을 파일에 저장하는 기능
     with open(task_file, 'w', encoding='utf-8') as file: #file => open(task_file, 'w', encoding='utf-8')
         json.dump(tasks, file, indent=4, ensure_ascii=False)
 
@@ -18,15 +18,36 @@ def add_task(task_name): # 1번에 할일을추가하는 함수
     task = {'name': task_name, "completed":False}
     tasks.append(task)
     save_task(tasks)
+
 def view_task(): # 2번에 할 일 목록보기를 보여주는 함수
-    pass
+    tasks = load_task() # 파일이 있는 경우 안에 내용물이 tasks에 들어가고 없으면 빈 리스트가 들어감
+    if not tasks: #tasks는 if문을 만나면 결과는 ?? 
+        print("현재 등록된 작업이 없습니다.")
+    else :
+        print("작업 목록 :")
+    for i, task in enumerate(tasks, start=1): # tasks = [{"name":"파이썬 공부하기", "completed":false}, ]
+    #enumerate() -> i = 1, task = {"name" : "파이썬 공부하기", "completed": false } 딕셔너리
+        status = "완료" if task['completed'] else "미완료" # 키값을 넣으면 자동적으로 반환(출력 또는 돌려주는거) 값을 준다
+        print(f"{i}. {task['name']} - {status}") # => 1. 파이썬 공부하기 - 미완료
+
     
 def complete_task(task_number): # 할일 완료 함수
-    pass
-
+    tasks = load_task() #tasks = [{"name":"파이썬 공부하기", "completed":false}, ]
+    if 1 <= task_number <= len (tasks):
+        tasks[task_number-1]["completed"] = True
+        save_task(tasks)
+        print(f"할 일 : {tasks[task_number-1]['name']}이(가) 완료 처리 되었습니다")
+    else :
+        print("유효하지 않은 번호입니다. 다시 확인 후 입력해주세요.")
+        
 def delete_task(task_number): # 할일 삭제 함수
-    pass
-
+    tasks = load_task()
+    if 1<= task_number <= len(tasks):
+        delete_tsk = [tasks.pop(task_number-1)] #index 값 넣어야해요 / pop()통해서 삭제 및 반환이 되고 삭제가 된 데이터가 delete_tsk에 들어간다
+        save_task(tasks)
+        print(f"할 일 : {delete_tsk['name']}")
+    else:
+        print("유효하지 않은 작업 번호입니다. 다시 확인해주세요")
 
 def show_menu():#메뉴를 보여주는 함수
     print("작업 관리 애플리케이션")
