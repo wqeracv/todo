@@ -19,7 +19,16 @@ def add_task(task_name): # 1번에 할일을추가하는 함수
     tasks.append(task)
     save_task(tasks)
 def view_task(): # 2번에 할 일 목록보기를 보여주는 함수
-    pass
+    tasks = load_task() # 파일이 있는 경우 안에 내용물이 tasks에 들어가고 없으면 빈 리스트가 들어감
+    if not tasks: #tasks는 if문을 만나면 결과는 ?? 
+        print("현재 등록된 작업이 없습니다.")
+    else :
+        print("작업 목록 :")
+    for i, task in enumerate(tasks, start=1): # tasks = [{"name":"파이썬 공부하기", "completed":false}, ]
+    #enumerate() -> i = 1, task = {"name" : "파이썬 공부하기", "completed": false } 딕셔너리
+        status = "완료" if task['completed'] else "미완료" # 키값을 넣으면 자동적으로 반환(출력 또는 돌려주는거) 값을 준다
+        print(f"{i}. {task['name']} - {status}") # => 1. 파이썬 공부하기 - 미완료
+
     
 def complete_task(task_number): # 할일 완료 함수
     tasks = load_task() #tasks = [{"name":"파이썬 공부하기", "completed":false}, ]
@@ -33,9 +42,9 @@ def complete_task(task_number): # 할일 완료 함수
 def delete_task(task_number): # 할일 삭제 함수
     tasks = load_task()
     if 1<= task_number <= len(tasks):
-        delete_tsk = [tasks.pop(task_number-1)] #index 값 넣어야해요 / pop()통해서 삭제 및 반환이 되고 삭제가 된 데이터가 delete_tsk에 들어간다
+        delete_tsk = tasks.pop(task_number-1)#index 값 넣어야해요 / pop()통해서 삭제 및 반환이 되고 삭제가 된 데이터가 delete_tsk에 들어간다
         save_task(tasks)
-        print(f"할 일 : {delete_tsk['name']}")
+        print(f"할 일 : {delete_tsk['name']}이 삭제되었습니다.")
     else:
         print("유효하지 않은 작업 번호입니다. 다시 확인해주세요")
 
