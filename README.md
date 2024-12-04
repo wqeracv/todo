@@ -32,7 +32,7 @@
 
 원하는 작업을 선택하세요 (1~5):
 ```
-
+![todo](https://github.com/user-attachments/assets/91f00791-5354-4c77-90de-7b65473f79f0)
 ---
 
 ## ⭐ 주요 기능  
